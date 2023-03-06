@@ -36,7 +36,7 @@ public class Item extends PanacheEntityBase {
     public String description;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false, insertable=false)
+    @Column(name = "created_at")
     public Date createdAt;
 
     @UpdateTimestamp
