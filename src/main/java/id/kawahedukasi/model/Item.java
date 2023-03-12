@@ -2,14 +2,10 @@ package id.kawahedukasi.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "item")
@@ -37,9 +33,9 @@ public class Item extends PanacheEntityBase {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    public Date createdAt;
+    public LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    public java.time.Instant updatedAt;
+    public LocalDateTime updatedAt;
 }

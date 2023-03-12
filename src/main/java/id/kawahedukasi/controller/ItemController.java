@@ -1,16 +1,19 @@
 package id.kawahedukasi.controller;
 
-import id.kawahedukasi.model.Item;
+import com.opencsv.exceptions.CsvValidationException;
+import id.kawahedukasi.DTO.FileFormDTO;
+import id.kawahedukasi.service.ExportService;
+import id.kawahedukasi.service.ImportService;
 import id.kawahedukasi.service.ItemService;
+import net.sf.jasperreports.engine.JRException;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Timestamp;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 @Path("/item")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,6 +21,12 @@ import java.util.Optional;
 public class ItemController {
     @Inject
     ItemService itemService;
+
+    @Inject
+    ExportService exportService;
+
+    @Inject
+    ImportService importService;
 
     // List all item
     @GET
@@ -32,9 +41,28 @@ public class ItemController {
         return itemService.get(id);
     }
 
+    @GET
+    @Path("/export/pdf")
+    @Produces("application/pdf")
+    public Response exportPdf() throws JRException {
+        return exportService.exportPdfItem();
+    }
+
     @POST
     public Response post(Map<String, Object> request){
         return itemService.post(request);
+    }
+
+    // Import csv
+    @POST
+    @Path("/import/csv")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response importCSV(@MultipartForm FileFormDTO request){
+        try {
+            return importService.importCSV(request);
+        } catch (IOException | CsvValidationException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PUT

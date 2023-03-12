@@ -46,7 +46,8 @@ public class ItemService {
         // Save to db
         item.persist();
 
-        return Response.status(Response.Status.CREATED).entity(new HashMap<>()).build();
+        return Response.status(Response.Status.CREATED).entity(Map.of("message", "Success, Item has been created"))
+                .build();
     }
 
     @Transactional
@@ -64,7 +65,7 @@ public class ItemService {
         // Save to db
         item.persist();
 
-        return Response.status(Response.Status.CREATED).entity(new HashMap<>()).build();
+        return Response.status(Response.Status.CREATED).entity(Map.of("message", "Success, Item has been updated")).build();
     }
 
     @Transactional
